@@ -17,6 +17,7 @@ from keras.preprocessing.image import img_to_array
 from keras.optimizers import Adam
 from keras.preprocessing.image import ImageDataGenerator
 from keras import losses
+from keras.applications.resnet50 import ResNet50
 import matplotlib
 matplotlib.use("Agg")
 
@@ -26,7 +27,7 @@ matplotlib.use("Agg")
 ap = argparse.ArgumentParser()
 ap.add_argument("-d", "--dataset", required=True,
                 help="path to the input dataset (i.e., the directory containing the pokemon images)")
-ap.add_argument("-m", "--model", required=False,
+ap.add_argument("-m", "--model", required=True,
                 help="path where model trained will be saved to")
 ap.add_argument("-l", "--labelbin", required=False,
                 help="path to output label binarizer produced by sklearn")
@@ -77,7 +78,8 @@ print("--Data Matrix :: {:.2f}MB".format(data.nbytes / (1024 * 1000.0)))
 print(labels)
 
 # transforms the pokemon names from string to number references, ['yes', 'no', 'no', 'yes'] -> [0, 1, 1, 0]
-labels = LabelBinarizer().fit_transform(labels)
+labelBinarizer = LabelBinarizer()
+labels = labelBinarizer.fit_transform(labels)
 print(labels)
 
 # splits up the training data into training and testing
@@ -99,15 +101,24 @@ augmentation = ImageDataGenerator(rotation_range=25, width_shift_range=0.1, heig
 print("--compiling model--")
 
 model = SmallerVGGNet.build(
-    width=ImgDim[0], height=ImgDim[1], depth=ImgDim[2], classes=len(LabelBinarizer().classes_))
+    width=ImgDim[0], height=ImgDim[1], depth=ImgDim[2], classes=len(labelBinarizer.classes_))
 
-## VIKTOR HELP
+# VIKTOR HELP
 # optimize the model (dimensionality)
 optimizer = Adam(lr=InitialLearningRate, decay=InitialLearningRate / Epochs)
 
-## VIKTOR HELP
+# VIKTOR HELP
 # The penalty "approach" chosen is the categorical crossentropy
 model.compile(loss=losses.categorical_crossentropy,
               optimizer=optimizer, metrics=["accuracy"])
 
 print("--training the model--")
+trainedNetwork = model.fit_generator(
+    aug.flow(trainDataImgX, trainDataLabelY, batch_size=BatchSize),
+    validation_data=(testDataImgX, testDataLabelY),
+    steps_per_epoch=len(trainDataImgX) // BatchSize,
+    epochs=Epochs, verbose=1)
+
+
+print("--Training done    ,    saving model generated to disk--")
+model.save(args["model"])
