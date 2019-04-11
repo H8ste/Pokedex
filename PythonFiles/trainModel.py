@@ -18,6 +18,7 @@ from keras.optimizers import Adam
 from keras.preprocessing.image import ImageDataGenerator
 from keras import losses
 from keras.applications.resnet50 import ResNet50
+from keras.callbacks import EarlyStopping
 import matplotlib
 matplotlib.use("Agg")
 
@@ -114,12 +115,15 @@ optimizer = Adam(lr=InitialLearningRate, decay=InitialLearningRate / Epochs)
 model.compile(loss=losses.categorical_crossentropy,
               optimizer=optimizer, metrics=["accuracy"])
 
+# Making early-stopping-callback
+ecb = EarlyStopping(monitor= 'val_loss', mode='min', verbose=1, restore_best_weights=False, baseline=None)
+cb_list = [ecb]
 print("--training the model--")
 trainedNetwork = model.fit_generator(
     augmentation.flow(trainDataImgX, trainDataLabelY, batch_size=BatchSize),
     validation_data=(testDataImgX, testDataLabelY),
     steps_per_epoch=len(trainDataImgX) // BatchSize,
-    epochs=Epochs, verbose=1)
+    epochs=Epochs, verbose=1,callbacks=cb_list)
 
 
 print("--Training done    ,    saving model generated to disk--")
