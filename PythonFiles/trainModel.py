@@ -129,7 +129,8 @@ if args["modelalready"] == 1:
                           batch_size=BatchSize),
         validation_data=(testDataImgX, testDataLabelY),
         steps_per_epoch=len(trainDataImgX) // BatchSize,
-        epochs=Epochs, verbose=1, callbacks=cb_list)
+        epochs=Epochs, verbose=1)
+        # , callbacks=cb_list
 
     print("--Training done    ,    saving model generated to disk--")
     # model.save(args["model"])
