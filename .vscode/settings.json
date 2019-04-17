@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Users\\Nickl\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
+    "python.pythonPath": "/anaconda3/envs/Pokedex/bin/python",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true
 }
