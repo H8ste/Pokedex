@@ -121,9 +121,10 @@ if args["modelalready"] == 1:
 
     # Making early-stopping-callback
     ecb = EarlyStopping(monitor='val_loss', mode='min',
-                        verbose=1, restore_best_weights=False)
+                        verbose=1, patience=1, restore_best_weights=False)
     cb_list = [ecb]
     print("--training the model--")
+
     trainedNetwork = model.fit_generator(
         augmentation.flow(trainDataImgX, trainDataLabelY,
                           batch_size=BatchSize),
@@ -144,17 +145,17 @@ if args["modelalready"] == 1:
 
     # save the label binarizer to disk
     print("[INFO] serializing label binarizer...")
-    f = open(args["labelbin"], "wb")
+    f = open("pythonfiles/labels/" + args["labelbin"] + ".pickle", "wb")
     f.write(pickle.dumps(labelBinarizer))
     f.close()
 # else:
     # load json and create model
-    json_file = open('pythonfiles/models/model.json', 'r')
+    json_file = open('pythonfiles/models/', args["model"],'.json', 'r')
     loaded_model_json = json_file.read()
     json_file.close()
     loaded_model = model_from_json(loaded_model_json)
     # load weights into new model
-    loaded_model.load_weights("pythonfiles/models/model.h5")
+    loaded_model.load_weights('pythonfiles/models/', args["model"],'.h5')
 
     # evaluate loaded model on test data
     loaded_model.compile(loss=losses.categorical_crossentropy,
