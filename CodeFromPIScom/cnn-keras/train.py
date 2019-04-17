@@ -19,6 +19,10 @@ from keras.preprocessing.image import ImageDataGenerator
 import matplotlib
 matplotlib.use("Agg")
 
+def save_asModel(model_n):
+    model_saved = False
+    # json_file.write(model_n)
+
 # import the necessary packages
 
 # construct the argument parse and parse the arguments
@@ -102,6 +106,7 @@ H = model.fit_generator(
 # save the model to disk
 print("[INFO] serializing network...")
 model.save(args["model"])
+
 
 # save the label binarizer to disk
 print("[INFO] serializing label binarizer...")
