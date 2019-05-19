@@ -10,32 +10,45 @@ using UnityEngine;
 
 public class HelloRequester : RunAbleThread
 {
+    public bool pokemonSelected;
+    public bool sending;
+    public string pokemonPath;
     ///     Stop requesting when Running=false.
     protected override void Run()
     {
-        ForceDotNet.Force(); 
+        ForceDotNet.Force();
 
         using (RequestSocket client = new RequestSocket())
         {
             client.Connect("tcp://localhost:5555");
 
-            while(Running)
+            while (Running)
             {
                 if (Send)
                 {
-                    //string message = client.ReceiveFrameString();
-                    client.SendFrame("Hello");
-
-                    string message = null;
-                    bool gotMessage = false;
-
-                    while (Running)
+                    if (pokemonSelected)
                     {
-                        gotMessage = client.TryReceiveFrameString(out message); // this returns true if it's successful
-                        if (gotMessage) break;
+                        if (!sending)
+                        {
+                            sending = true;
+                            //string message = client.ReceiveFrameString();
+                            client.SendFrame(pokemonPath);
+
+                            string message = null;
+                            bool gotMessage = false;
+
+                            while (Running)
+                            {
+                                gotMessage = client.TryReceiveFrameString(out message); // this returns true if it's successful
+                                if (gotMessage) break;
+                            }
+                            if (gotMessage) Debug.Log("Received " + message);
+                            sending = false;
+                        }
+
+
                     }
-                    if (gotMessage) Debug.Log("Received " + message);
-                }       
+                }
             }
         }
 

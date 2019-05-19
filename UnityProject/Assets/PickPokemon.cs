@@ -17,14 +17,10 @@ public class PickPokemon : MonoBehaviour
                 "Charmander_01","Charmander_02","Charmander_03","Charmander_04","Charmander_05",
                 "Pikachu_01","Pikachu_02","Pikachu_03","Pikachu_04","Pikachu_05",
                 "Mewtwo_01","Mewtwo_02","Mewtwo_03","Mewtwo_04","Mewtwo_05"};
-        //  "01","02","03","04","05"};
         chosenPokemon = availablepokemons[Random.Range(0, availablepokemons.Length - 1)];
-        Debug.Log("found pokemon: " + chosenPokemon);
         m_Renderer = GetComponent<Renderer>();
         m_Renderer.material.EnableKeyword("_NORMALMAP");
-        // m_Renderer.material.EnableKeyword("_METALLICGLOSSMAP");
         foundPokemon = Resources.Load<Texture>("Textures/" + chosenPokemon);
-        Debug.Log(foundPokemon.width);
         m_Renderer.material.SetTexture("_MainTex", foundPokemon);
 
     }

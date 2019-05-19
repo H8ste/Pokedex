@@ -29,9 +29,15 @@ public class PlayerControlsTWO : MonoBehaviour
     public RectTransform pokedex;
     public Text pokedexText;
 
+    public GameObject ClientObject;
+    public HelloRequester sendToPython;
+
+    private bool alreadySent = false;
+
     // Start is called before the first frame update
     void Start()
     {
+        sendToPython = ClientObject.GetComponent<HelloClient>()._helloRequester;
         rb = GetComponent<Rigidbody>();
         // GetComponent<Rigidbody>();
     }
@@ -56,11 +62,26 @@ public class PlayerControlsTWO : MonoBehaviour
 
         if (Input.GetKey("left shift"))
         {
+            // Debug.Log("shift is down");
             showPokedex = true;
+            if (sendToPython.pokemonPath != null)
+            {
+                if (!alreadySent)
+                {
+                    alreadySent = true;
+                    sendToPython.pokemonSelected = true;
+                }
+                else
+                {
+                    sendToPython.pokemonSelected = false;
+                }
+            }
         }
         else
         {
+            alreadySent = false;
             showPokedex = false;
+            sendToPython.pokemonSelected = false;
 
         }
 

@@ -5,15 +5,17 @@ using NetMQ.Sockets;
 
 public class HelloClient : MonoBehaviour
 {
-    private HelloRequester _helloRequester;
+    public HelloRequester _helloRequester;
     public bool SendPack = true;
+
 
     void Update()
     {
         if (SendPack)
         {
             _helloRequester.Continue();
-        } else if (!SendPack)
+        }
+        else if (!SendPack)
         {
             _helloRequester.Pause();
         }
