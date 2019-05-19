@@ -3,7 +3,7 @@
 #   Binds REP socket to tcp://*:5555
 #   Expects b"Hello" from client, replies with b"World"
 #
-
+import os
 import time
 import zmq
 
@@ -16,6 +16,8 @@ while True:
     #  Wait for next request from client
     message = socket.recv_string()
     print("message from server: ", message)
+
+    os.system("classify.py -m nicklas -l labels/nicklas.pickle -i " + message)
 
     #  In the real world usage, you just need to replace time.sleep() with
     #  whatever work you want python to do.
