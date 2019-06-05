@@ -37,13 +37,15 @@ def classify(model, labels, imageClassify):
     # binarizer
 
     # load json and create model
-    json_file = open("models/" + model + ".json", 'r')
+    print('currentpath: ' + os.getcwd())
+    print('path: ' + os.getcwd() + "\\PythonFiles\\"+ "\\models\\" + model + ".json")
+    json_file = open(os.getcwd() + "\\PythonFiles\\" + "\\models\\" + model + ".json", 'r')
     loaded_model_json = json_file.read()
     json_file.close()
 
     loaded_model = model_from_json(loaded_model_json)
     # load weights into new model
-    loaded_model.load_weights("models/" + model + ".h5")
+    loaded_model.load_weights(os.getcwd() + "\\PythonFiles\\" + "\\models\\" + model + ".h5")
     print("Loaded model from disk")
 
     # print("[INFO] loading network...")
@@ -52,8 +54,11 @@ def classify(model, labels, imageClassify):
 
 
     # load the image
-    os.chdir("..")
-    os.chdir("UnityProject/Assets/Resources/Textures/")
+    os.chdir(basePath)
+    # os.chdir("..")
+    print("current directory: " + os.getcwd())
+    os.chdir(os.getcwd() + "/UnityProject/Assets/Resources/Textures/")
+    print("current directory: " + os.getcwd())
     image = cv2.imread((imageClassify + ".jpg"))
     output = image.copy()							
 
@@ -96,20 +101,21 @@ context = zmq.Context()
 socket = context.socket(zmq.REP)
 socket.bind("tcp://*:5555")
 print ("server running on port 5555")
+basePath = os.getcwd()
 while True:
 
-
+    os.chdir(basePath)
     #  Wait for next request from client
     message = socket.recv_string()
     print("message from server: ", message)
     print("printing results")
-    results = classify("nicklas", "labels/nicklas.pickle", message)
+    results = classify("nicklas", os.getcwd() + "\\PythonFiles\\" + "labels/nicklas.pickle", message)
     # print(test)
 
     #  In the real world usage, you just need to replace time.sleep() with
     #  whatever work you want python to do.
     time.sleep(1)
-    os.chdir(os.path.realpath(os.path.dirname(__file__)))
+    os.chdir(basePath)
 
     #  Send reply back to client
     #  In the real world usage, after you finish your work, send your output here
