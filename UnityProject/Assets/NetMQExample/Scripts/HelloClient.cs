@@ -6,6 +6,7 @@ using NetMQ.Sockets;
 public class HelloClient : MonoBehaviour
 {
     public HelloRequester _helloRequester;
+    public RectTransform pokemonUI;
     public bool SendPack = true;
 
 

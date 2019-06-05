@@ -2,6 +2,7 @@
 using NetMQ;
 using NetMQ.Sockets;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 ///     You can copy this class and modify Run() to suits your needs.
@@ -12,7 +13,9 @@ public class HelloRequester : RunAbleThread
 {
     public bool pokemonSelected;
     public bool sending;
-    public string pokemonPath;
+    public string pokemonPath;  
+
+    public string foundpokemons;
     ///     Stop requesting when Running=false.
     protected override void Run()
     {
@@ -42,7 +45,13 @@ public class HelloRequester : RunAbleThread
                                 gotMessage = client.TryReceiveFrameString(out message); // this returns true if it's successful
                                 if (gotMessage) break;
                             }
-                            if (gotMessage) Debug.Log("Received " + message);
+                            if (gotMessage) {
+                                // Debug.Log("Received " + message);
+                                string editedmessage =message.Substring(8);
+                                foundpokemons = foundpokemons + '\n' + editedmessage; 
+                                Debug.Log(foundpokemons);
+
+                            }
                             sending = false;
                         }
 
