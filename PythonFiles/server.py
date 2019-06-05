@@ -38,14 +38,14 @@ def classify(model, labels, imageClassify):
 
     # load json and create model
     print('currentpath: ' + os.getcwd())
-    print('path: ' + os.getcwd() + "\\PythonFiles\\"+ "\\models\\" + model + ".json")
-    json_file = open(os.getcwd() + "\\PythonFiles\\" + "\\models\\" + model + ".json", 'r')
+    print('path: ' + os.getcwd() + "\\PythonFiles"+ "\\models\\" + model + ".json")
+    json_file = open(os.getcwd() + "\\PythonFiles" + "\\models\\" + model + ".json", 'r')
     loaded_model_json = json_file.read()
     json_file.close()
 
     loaded_model = model_from_json(loaded_model_json)
     # load weights into new model
-    loaded_model.load_weights(os.getcwd() + "\\PythonFiles\\" + "\\models\\" + model + ".h5")
+    loaded_model.load_weights(os.getcwd() + "\\PythonFiles" + "\\models\\" + model + ".h5")
     print("Loaded model from disk")
 
     # print("[INFO] loading network...")
@@ -109,7 +109,7 @@ while True:
     message = socket.recv_string()
     print("message from server: ", message)
     print("printing results")
-    results = classify("nicklas", os.getcwd() + "\\PythonFiles\\" + "labels/nicklas.pickle", message)
+    results = classify("longerEpoch", os.getcwd() + "\\PythonFiles\\" + "labels/longerEpoch.pickle", message)
     # print(test)
 
     #  In the real world usage, you just need to replace time.sleep() with
