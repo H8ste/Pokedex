@@ -109,7 +109,7 @@ while True:
     message = socket.recv_string()
     print("message from server: ", message)
     print("printing results")
-    results = classify("nicklas", os.getcwd() + "\\PythonFiles\\" + "labels/nicklas.pickle", message)
+    results = classify("lognerEpoch", os.getcwd() + "\\PythonFiles\\" + "labels/longerEpoch.pickle", message)
     # print(test)
 
     #  In the real world usage, you just need to replace time.sleep() with
