@@ -82,8 +82,9 @@ def classify(model, labels, imageClassify):
     inputFileName = imageClassify
     filename = inputFileName[:-3]
     print("filename: ", filename)
+    print("found label: ", label)
     #  refind returns -1 if strin doens't contain argument provided
-    correct = "correct" if filename.lower().rfind(label.split("/")[1]) != -1 else "incorrect"
+    correct = "correct" if filename.lower().rfind(label) != -1 else "incorrect"
 
     # build the label and draw the label on the image
     label = "{}: {:.2f}% ({})".format(label, proba[idx] * 100, correct)
@@ -109,7 +110,7 @@ while True:
     message = socket.recv_string()
     print("message from server: ", message)
     print("printing results")
-    results = classify("longerEpoch", os.getcwd() + "\\PythonFiles\\" + "labels/longerEpoch.pickle", message)
+    results = classify("pokedex", os.getcwd() + "\\PythonFiles\\" + "labels/pokedex.pickle", message)
     # print(test)
 
     #  In the real world usage, you just need to replace time.sleep() with

@@ -45,7 +45,7 @@ if args["modelalready"] == 1:
     Epochs = args["epoch"]
     InitialLearningRate = 1e-3  # or 0.001
     # the number of training examples utilized in one iteration
-    BatchSize = 10
+    BatchSize = 5
     # for resizing the image through openCV
     ImgDim = (96, 96, 3)
 
@@ -121,7 +121,7 @@ if args["modelalready"] == 1:
 
     # Making early-stopping-callback
     ecb = EarlyStopping(monitor='val_loss', mode='min',
-                        verbose=1, patience=1, restore_best_weights=False)
+                        verbose=1, patience=1, restore_best_weights=True)
     cb_list = [ecb]
     print("--training the model--")
 
@@ -130,8 +130,8 @@ if args["modelalready"] == 1:
                           batch_size=BatchSize),
         validation_data=(testDataImgX, testDataLabelY),
         steps_per_epoch=len(trainDataImgX) // BatchSize,
-        epochs=Epochs, verbose=1)
-        # , callbacks=cb_list
+        epochs=Epochs, verbose=1,
+        callbacks=cb_list)
 
     print("--Training done    ,    saving model generated to disk--")
     # model.save(args["model"])

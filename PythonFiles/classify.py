@@ -76,7 +76,7 @@ correct = "correct" if filename.lower().rfind(label.split("/")[1]) != -1 else "i
 label = "{}: {:.2f}% ({})".format(label, proba[idx] * 100, correct)
 # output = imutils.resize(output, width=450)
 # cv2.putText(output, label, (10, 25),  cv2.FONT_HERSHEY_SIMPLEX,
-	0.6, (0, 255, 0), 2)
+# 0.6, (0, 255, 0), 2)
 
 # show the output image
 print("[INFO] {}".format(label))

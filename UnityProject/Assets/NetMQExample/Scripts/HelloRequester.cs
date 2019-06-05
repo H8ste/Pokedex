@@ -47,8 +47,8 @@ public class HelloRequester : RunAbleThread
                             }
                             if (gotMessage) {
                                 // Debug.Log("Received " + message);
-                                string editedmessage =message.Substring(8);
-                                foundpokemons = foundpokemons + '\n' + editedmessage; 
+                                // string editedmessage =message.Substring(8);
+                                foundpokemons = foundpokemons + '\n' + message; 
                                 Debug.Log(foundpokemons);
 
                             }
